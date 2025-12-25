@@ -19,7 +19,7 @@ jobs:
 
             - name: Run tests and generate Allure report
               run: |
-                docker run --name playwright-container playwright-tests \
+                docker run --rm --name playwright-container playwright-tests \
                 sh -c "npx playwright test && npx allure generate allure-results --clean -o allure-report"
                 
             - name: Copy Allure results from container

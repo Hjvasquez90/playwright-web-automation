@@ -32,7 +32,10 @@ export class CartPage {
   }
 
   async goBackToInventory() {
-    await this.continueShoppingButton.click();
+    await Promise.all([
+      this.page.waitForURL('**/inventory.html'),
+      this.page.click('[data-test="continue-shopping"]'),
+    ])
   }
 
   async isProductInCart(productName: string) {

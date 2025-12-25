@@ -80,7 +80,7 @@ test.describe('Carrito - Agregar productos', () => {
         await inventory.goToCart();
         // Volver al inventario desde el carrito
         await cart.goBackToInventory();
-        expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
+        await expect(page).toHaveURL(/inventory\.html/);
     });
     });
 

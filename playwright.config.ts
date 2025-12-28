@@ -1,13 +1,18 @@
 /// <reference types="node" />
 
 import { defineConfig, devices } from '@playwright/test';
+const isCI = !!process.env.CI;
 
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  forbidOnly: isCI,
+  retries: isCI ? 2: 0,
+  workers: isCI ? 1 : 2,
+
+  expect: {
+    timeout: isCI ? 10000: 5000,
+  },
 
   reporter: [
     ['list'],

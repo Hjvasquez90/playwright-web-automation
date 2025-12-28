@@ -10,7 +10,7 @@ RUN apt-get update && \
     apt-get clean
 
 # Configurar JAVA_HOME (Necesario para correr Allure)
-    ENV JAVA_HOME=/usr/lib/jvm/jave-17-openjdk-amd64
+    ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
     ENV PATH="$JAVA_HOME/bin:$PATH"
 
 # Copiar dependencias primero (Buena practica)

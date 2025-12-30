@@ -15,9 +15,9 @@ export default defineConfig({
   },
 
   reporter: [
-    ['list'],
-    ['allure-playwright']
-  ],
+  ['list'],
+  ['allure-playwright', { outputFolder: 'allure-results' }]
+],
 
   use: {
     trace: 'on-first-retry',

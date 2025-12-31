@@ -24,7 +24,7 @@ COPY . .
 RUN npm install -g allure-commandline
 
 # Crear carpeta de resultados
-RUN mkdir -p allure-results
+RUN mkdir -p /app/allure-results
 
 # Exponer puerto para Allure
 EXPOSE 4040

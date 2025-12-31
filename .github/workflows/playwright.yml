@@ -1,38 +1,36 @@
 name: Playwright Tests (Docker)
 
 on:
-    push:
-        branches: [ main ]
-    pull_request:
-        branches: [ main ]
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-    playwright:
-        runs-on: ubuntu-latest
+  playwright:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout repositorygit
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: Build Docker image
-              run: docker build -t playwright-tests .
+      - name: Build Docker image
+        run: docker build -t playwright-tests .
 
-            - name: Run tests and generate Allure report
-              run: |
-                docker run -e CI=true --name playwright-container playwright-tests \
-                sh -c "npx playwright test && npx allure generate allure-results --clean -o allure-report"
-                
-            - name: Copy Allure results from container
-              run: |
-                docker cp playwright-container:/app/allure-report ./allure-report
+      - name: Run Playwright tests (generate Allure results)
+        run: |
+          docker run --name playwright-container -e CI=true playwright-tests \
+          sh -c "npx playwright test && ls -la allure-results"
 
-            - name: Remove container
-              run: |
-                docker rm playwright-container
+      - name: Copy Allure results from container
+        run: |
+          docker cp playwright-container:/app/allure-results ./allure-results ls -la ./allure-results
 
-            - name: Upload Allure results
-              uses: actions/upload-artifact@v4
-              with:
-                name: allure-results
-                path: allure-results
+      - name: Remove container
+        run: docker rm playwright-container
 
+      - name: Upload Allure results
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results

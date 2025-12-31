@@ -24,7 +24,8 @@ jobs:
 
       - name: Copy Allure results from container
         run: |
-          docker cp playwright-container:/app/allure-results ./allure-results ls -la ./allure-results
+          docker cp playwright-container:/app/allure-results ./allure-results
+          ls -la ./allure-results
 
       - name: Remove container
         run: docker rm playwright-container

@@ -1,5 +1,8 @@
 name: Playwright Tests (Docker)
 
+permissions:
+  contents: write
+
 on:
   push:
     branches: [ main ]
@@ -14,7 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build Docker image
+      - name: Build Docker image.
         run: docker build -t playwright-tests .
 
       - name: Run Playwright tests (generate Allure results)

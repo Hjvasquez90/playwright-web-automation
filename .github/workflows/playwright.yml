@@ -27,6 +27,13 @@ jobs:
             playwright-tests \
             sh -c "npx playwright test && ls -la allure-results"
 
+      - name: Limit allure history to last 5 runs
+        run: |
+          if [ -d gh-pages/history ]; then
+          cd gh-pages/history
+          ls -dt */ |tail -n +6 | xargs rm -rf || true
+          fi 
+
       - name: Copy Allure results from container
         run: |
           docker cp playwright-container:/app/allure-results ./allure-results
@@ -34,6 +41,14 @@ jobs:
 
       - name: Remove container
         run: docker rm playwright-container
+
+      - name: Load previous Allure history
+        run: |
+          git clone --depth=1 --branch gh-pages https://github.com/${{ github.repository }} gh-pages || true
+          if [ -d gh-pages/history ]; then
+            mkdir -p allure-results/history
+            cp -r gh-pages/history* allure-results/history/
+          fi
 
       - name: Generate Allure HTML report
         run: |

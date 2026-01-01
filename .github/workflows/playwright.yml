@@ -1,4 +1,4 @@
-name: playwright tests (Docker)
+name: Playwright Tests (Docker)
 
 on:
   push:
@@ -19,11 +19,10 @@ jobs:
 
       - name: Run Playwright tests (generate Allure results)
         run: |
-       docker run --name playwright-container \
-        -e CI=true \
-        playwright-tests \
-        sh -c "npx playwright test && ls -la allure-results"
-
+          docker run --name playwright-container \
+            -e CI=true \
+            playwright-tests \
+            sh -c "npx playwright test && ls -la allure-results"
 
       - name: Copy Allure results from container
         run: |
@@ -35,8 +34,10 @@ jobs:
 
       - name: Generate Allure HTML report
         run: |
-          docker run --rm -v ${{ github.workspace }}:/work playwright-tests \
-          sh -c "cd /work && npx allure generate allure-results --clean -o allure-report"
+          docker run --rm \
+            -v ${{ github.workspace }}:/work \
+            playwright-tests \
+            sh -c "cd /work && npx allure generate allure-results --clean -o allure-report"
 
       - name: Deploy Allure HTML report
         uses: peaceiris/actions-gh-pages@v3

@@ -1,4 +1,4 @@
-name: Playwright Tests (Docker)
+name: playwright tests (Docker)
 
 on:
   push:
@@ -17,10 +17,13 @@ jobs:
       - name: Build Docker image
         run: docker build -t playwright-tests .
 
-      - name: Run Playwright tests (generate Allure results)
+      - name: Run playwright tests (generate Allure results)
         run: |
-          docker run --name playwright-container -e CI=true playwright-tests \
-          sh -c "npx playwright test && ls -la allure-results"
+          docker run --rm\
+          --name playwright-container |
+          -e CI=true 
+          playwright-tests \
+          sh -c "npx playwright tests && ls -la allure-results"
 
       - name: Copy Allure results from container
         run: |

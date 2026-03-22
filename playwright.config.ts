@@ -1,25 +1,27 @@
 /// <reference types="node" />
 
 import { defineConfig, devices } from '@playwright/test';
+
 const isCI = !!process.env.CI;
 
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: isCI,
-  retries: isCI ? 2: 0,
+  retries: isCI ? 2 : 0,
   workers: isCI ? 1 : 2,
 
   expect: {
-    timeout: isCI ? 10000: 5000,
+    timeout: isCI ? 10000 : 5000,
   },
 
   reporter: [
-  ['list'],
-  ['allure-playwright', { outputFolder: 'allure-results' }]
-],
+    ['list'],
+    ['allure-playwright', { outputFolder: 'allure-results' }],
+  ],
 
   use: {
+    baseURL: 'https://www.saucedemo.com',
     trace: 'on-first-retry',
   },
 
